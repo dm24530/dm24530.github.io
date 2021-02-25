@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://dm24530.GitHub.io</id>
     <title>MingKing</title>
-    <updated>2021-02-25T13:44:15.570Z</updated>
+    <updated>2021-02-25T13:57:03.021Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://dm24530.GitHub.io"/>
     <link rel="self" href="https://dm24530.GitHub.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://dm24530.GitHub.io/images/avatar.png</logo>
     <icon>https://dm24530.GitHub.io/favicon.ico</icon>
     <rights>All rights reserved 2021, MingKing</rights>
+    <entry>
+        <title type="html"><![CDATA[《人工智能及其应用》1-6章]]></title>
+        <id>https://dm24530.GitHub.io/post/lesslessren-gong-zhi-neng-ji-qi-ying-yong-greatergreater-1-6-zhang/</id>
+        <link href="https://dm24530.GitHub.io/post/lesslessren-gong-zhi-neng-ji-qi-ying-yong-greatergreater-1-6-zhang/">
+        </link>
+        <updated>2021-02-25T13:47:07.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[大数据分析与挖掘]]></title>
         <id>https://dm24530.GitHub.io/post/da-shu-ju-fen-xi-yu-wa-jue/</id>
@@ -72,12 +79,5 @@
         <link href="https://dm24530.GitHub.io/post/用栈求中缀表达式值/">
         </link>
         <updated>2021-02-19T14:11:29.000Z</updated>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1.基础流程]]></title>
-        <id>https://dm24530.GitHub.io/post/1ji-chu-liu-cheng/</id>
-        <link href="https://dm24530.GitHub.io/post/1ji-chu-liu-cheng/">
-        </link>
-        <updated>2020-07-03T13:16:06.000Z</updated>
     </entry>
 </feed>
