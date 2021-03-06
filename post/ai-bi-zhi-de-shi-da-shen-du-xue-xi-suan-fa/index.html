@@ -8,7 +8,7 @@
 <meta name="keywords" content="MingKing">
 <meta name="description" content="温故而知新">
 <meta name="theme-color" content="#000">
-<title>MingKing</title>
+<title>AI必知的十大深度学习算法 | MingKing</title>
 <link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/dm24530/dm24530.github.io@master/favicon.ico?v=1615001997802">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dm24530/dm24530.github.io@master/media/css/gemini.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dm24530/dm24530.github.io@master/media/fonts/font-awesome.css">
@@ -38,6 +38,8 @@
 
 
 
+  <meta name="description" content="AI必知的十大深度学习算法" />
+  <meta name="keywords" content="" />
 </head>
 
 <body>
@@ -170,10 +172,25 @@
   <div class="main-continer">
     
     <div
-      class="section-layout  gemini">
+      class="section-layout gemini ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="https://cdn.jsdelivr.net/gh/dm24530/dm24530.github.io@master/images/avatar.png"/>
@@ -222,236 +239,307 @@
 
 
 </div>
+          
+        
+      </div>
+    </div>
+  
 </div>
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'gemini';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
       }
-    });
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
   }
-  </script>
-        <div class="section-box tag-line box-shadow-wrapper">
-          <section class="section tags-section posts-expand bg-color">
-            <div class="padding-wrapper">
-  <div class="tag-timeline-box">
-    <div class="tag-timeline-wrapper">
-      <div class="tag-timeline-title">
-        <h2>
-          操作系统
-          <small class="language" data-lan="tag">标签</small>
-        </h2>
-      </div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <a href="https://dm24530.GitHub.io/post/cao-zuo-xi-tong-si-wei-dao-tu-ling-ji-chu-si-wei-dao-tu-xiang-xi-ban-ben-ji-zhi-shi-dian/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              02-21
-              <small>操作系统思维导图---（零基础---思维导图详细版本及知识点）</small>
-            </h1>
-          </div>
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://dm24530.GitHub.io/post/ai-bi-zhi-de-shi-da-shen-du-xue-xi-suan-fa/">
+      AI必知的十大深度学习算法
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2021-03-04 11:45:48">2021-03-04</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>12<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>3333<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <article class="baidu_pl">
+        <div id="article_content" class="article_content clearfix">
+        <link rel="stylesheet" href="https://csdnimg.cn/release/blogv2/dist/mdeditor/css/editerView/ck_htmledit_views-b5506197d8.css">
+                <div id="content_views" class="htmledit_views">
+                    <p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">首先先让我们来定义一下什么是“深度学习”。对很多人来说，给“深度学习”下一个定义确实很有挑战，因为在过去的十年中，它的形式已经慢慢地发生了很大的变化。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">先来在视觉上感受一下“深度学习”的地位。下图是AI、机器学习和深度学习三个概念的一个关系图。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:center;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152536609?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">AI的领域要相对较广泛，机器学习是AI的一个子领域，而深度学习是机器学习领域中的一个子集。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度学习网络与“典型”的前馈多层网络之间是有一些区别的，如下：</span></span></p>
+<ul class="list-paddingleft-2" style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;margin-bottom:0px;margin-left:8px;margin-right:8px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:35.2px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度学习网络比之前的网络有更多的神经元</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度学习网络具有更复杂的连接层的方式</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度学习网络需要用强大的计算能力来训练</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度学习网络能够进行自动特征提取</span></p></li></ul>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">因此深度学习可以被定义为在以下四个基本网络框架中拥有大量参数和层的神经网络：</span></span></p>
+<ul class="list-paddingleft-2" style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;margin-bottom:0px;margin-left:8px;margin-right:8px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:35.2px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">无监督预训练网络（Unsupervised Pre-trained Networks）</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">卷积神经网络（Convolutional Neural Networks）</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">循环神经网络（Recurrent Neural Networks）</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">递归神经网络 （Recursive Neural Networks）<br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></p></li></ul>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">在这篇文章中，我主要对后三个框架比较感兴趣。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">卷积神经网络：</span></span><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">基本上就是用共享权重在空间中进行扩展的标准神经网络。设计CNN主要是为了通过内部卷积来识别图片，内部卷积可以看到待识别物体的边。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">循环神经网络：</span></span><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">基本上是在时间上进行扩展的标准神经网络，因为边进入下一个时间步，而不是在同一时间步进入下一个层。设计RNN主要是为了识别序列，例如语音信号或者文本。它里面的循环意味着网络中存在短暂的记忆。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">递归神经网络：</span></span><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">更类似于分层网络，其中输入序列没有真正的时间面，而是输入必须以树状方式分层处理。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">以下10种方法可以应用于所有这些体系结构。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t0"></a><a name="t0"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">1、反向传播</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">反向传播是“误差反向传播”的简称，它是一种计算函数（在神经网络中以函数形式存在）偏微分的方法。当你要用一个基于梯度的方法来解决一个最优问题时（注意梯度下降只是解决这类问题的一种方法），你希望在每一次迭代中计算函数梯度。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152616998?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">对于神经网络而言，目标函数具有合成的形式。那么如何计算梯度呢？一般情况下有两种常见的方法：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">1）微分分析法。当你知道这个函数的形式时，你只需要用链式法则计算导数即可；</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">2）用有限差分方法来近似微分。这种方法的计算量很大，因为函数评估的数量是O（N），其中N是参数的数量。与微分分析法相比，这是比较昂贵的。不过，有限差分通常在调试时验证后端实现。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t1"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></span></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t2"></a><a name="t2"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">2、随机梯度下降</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">一个直观理解梯度下降的方法是去想象一条溯源山顶的河流。这条河流会沿着山势梯度的方向流向山麓下的最低点。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152639148?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">如果让人来走，可能就不一样了，你可能会先随便选一个方向，然后沿着这个方向的梯度向下走；过一会儿再随机换一个方向向下走；最后你发现自己差不多也到了谷底了。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">数学化的理解就是：<br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">随机梯度下降主要用来求解类似于如下求和形式的优化问题：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152653606?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">梯度下降法：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152709123?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">当n很大时，每次迭代计算所有的梯度会非常耗时。<br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">随机梯度下降的想法就是每次在Delta f_i 中随机选取一个计算代替上面的Delta f_i，以这个随机选取的方向作为下降的方向。这样的方法反而比梯度下降能够更快地到达（局部）最优解。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t3"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t4"></a><a name="t4"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">3、学习率衰减</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">在训练模型的时候，通常会遇到这种情况：我们平衡模型的训练速度和损失（loss）后选择了相对合适的学习率（learning rate），但是训练集的损失下降到一定的程度后就不在下降了，比如training loss一直在0.7和0.9之间来回震荡，不能进一步下降。如下图所示：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152738385?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">遇到这种情况通常可以通过适当降低学习率（learning rate）来实现。但是，降低学习率又会延长训练所需的时间。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">学习率衰减（learning rate decay）就是一种可以平衡这两者之间矛盾的解决方案。学习率衰减的基本思想是：学习率随着训练的进行逐渐衰减。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">学习率衰减基本有两种实现方法：</span></p>
+<ul class="list-paddingleft-2" style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;margin-bottom:0px;margin-left:8px;margin-right:8px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:35.2px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">线性衰减。例如：每过5个epochs学习率减半；</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">指数衰减。例如：每过5个epochs将学习率乘以0.1。</span></p></li></ul>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t5"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t6"></a><a name="t6"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">4、dropout</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">在当前的大规模神经网络中有两个缺点：</span></p>
+<ul class="list-paddingleft-2" style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;margin-bottom:0px;margin-left:8px;margin-right:8px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:35.2px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">费时；</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">容易过拟合</span></p></li></ul>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">Dropout 可以很好地解决这个问题。Dropout说的简单一点就是在前向传导的时候，让某个神经元的激活值以一定的概率p停止工作，示意图如下：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152758201?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">每次做完dropout，相当于从原始的网络中找到一个更瘦的网络。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">Hinton在其论文中做了这样的类比，无性繁殖可以保留大段的优秀基因，而有性繁殖则将基因随机拆了又拆，破坏了大段基因的联合适应性；但是自然选择了有性繁殖，物竞天择，适者生存，可见有性繁殖的强大。dropout 也能达到同样的效果，它强迫一个神经单元，和随机挑选出来的其他神经单元共同工作，消除减弱了神经元节点间的联合适应性，增强了泛化能力。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t7"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t8"></a><a name="t8"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">5、max pooling</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">池化（Pooling）是卷积神经网络中另一个重要的概念，它实际上是一种形式的向下采样。有多种不同形式的非线性池化函数，而其中“最大池化（Max pooling）”是最为常见的。它是将输入的图像划分为若干个矩形区域，对每个子区域输出最大值。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152814423?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">直觉上，这种机制能够有效地原因在于，在发现一个特征之后，它的精确位置远不及它和其他特征的相对位置的关系重要。池化层会不断地减小数据的空间大小，因此参数的数量和计算量也会下降，这在一定程度上也控制了过拟合。通常来说，CNN的卷积层之间都会周期性地插入池化层。&nbsp;<br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t9"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t10"></a><a name="t10"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">6、批标准化</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">包括深度网络在内的神经网络需要仔细调整权重初始化和学习参数。批标准化使这些变得轻松许多。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">权重问题：</span></p>
+<ul class="list-paddingleft-2" style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;margin-bottom:0px;margin-left:8px;margin-right:8px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:35.2px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">无论权重的初始化如何，是随机的还是经验性的选择，它们离学习权重都会很远。考虑一个小批量，初期在所需的特征激活方面会有很多异常值。</span></p></li><li style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><p style="clear:both;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:618.8px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深层神经网络本身是病态的，初始层中的微小扰动都会导致后面层的非常大的变化。</span></p></li></ul>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">在反向传播过程中，这些现象会导致梯度弥散。这就意味着在学习权重产生所需要的输出前，必须对梯度的异常值进行补偿，这将导致需要额外的时段来收敛。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152837376?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">批量归一化使这些梯度从分散到正常值并在小批量范围内流向共同目标（通过归一化）。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">学习率问题：一般来说，学习率需要保持较低的值，使得只有一小部分的梯度来校正权重，原因是要使异常激活的梯度不影响已学习到的激活。通过批量标准化，可以减少这些异常激活，因此也就可以使用更高的学习率来加速学习过程。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t11"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t12"></a><a name="t12"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">7、long short-term memory</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">LSTM网络具有以下三个方面，使其与循环神经网络中的常见神经元不同：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">1）它能够决定何时让输入进入神经元；</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">2）它能够决定何时记住上一个时间步中计算的内容；</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">3）它决定何时让输出传递到下一个时间步。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">LSTM的美妙之处在于它能够根据当前的输入本身来决定所有这些。 所以你看下面的图表：</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152855100?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">当前时间的输入信号x（t）决定所有上述3个点。 输入门决定点1，遗忘门决定点2，输出门决定点3。任何一条输入都能够采取所有这三个决定。这种设计其实是受到了我们大脑如何工作的启发，并且可以基于输入来处理突然的上下文切换。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t13"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t14"></a><a name="t14"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">8、skip-gram</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">词嵌入模型的目标是为每个词项学习一个高维密集表示，其中嵌入向量之间的相似性显示了相应词之间的语义或句法相似性。 Skip-gram是一个学习词嵌入算法的模型。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">skip-gram模型（以及许多其他的词语嵌入模型）背后的主要思想如下：两个词项相似，如果它们共享相似的上下文。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/2018040415291828?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">换句话说，假设你有一个句子，例如“猫是哺乳动物”；如果你用“狗”而不是“猫”，这个句子还是一个有意义的句子。因此在这个例子中，“狗”和“猫”可以共享相同的上下文（即“是哺乳动物”）。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">基于上述假设，你可以考虑一个上下文窗口（一个包含k个连续项的窗口），然后你跳过其中一个单词，试着去学习一个能够得到除跳过项外的所有项的神经网络，并预测跳过的这个项。如果两个词在一个大语料库中反复共享相似的语境，则这些词的嵌入向量将具有相近的向量。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t15"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t16"></a><a name="t16"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">9、连续词袋</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">在自然语言处理问题中，我们希望学习将文档中的每个单词表示为一个数字的向量，使得出现在相似的上下文中的单词具有彼此接近的向量。在连续的单词模型中，目标是能够使用围绕特定单词的上下文并预测特定单词。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">&nbsp;<img src="https://img-blog.csdn.net/20180404152934552?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">我们通过在一个大的语料库中采取大量的句子来做到这一点，每当我们看到一个单词时，我们就提取周围的单词。 然后，我们将上下文单词输入到一个神经网络，并预测在这个上下文中间的单词。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">当我们有成千上万个这样的上下文单词和中间词时，我们就有一个神经网络数据集的实例。 我们训练神经网络，最后编码的隐藏层输出表示了特定单词的嵌入。 恰巧，当我们对大量的句子进行训练时，类似语境中的单词得到相似的向量。</span></p>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t17"></a><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><br style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"></span></h2>
+<h2 style="background-color:transparent;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><a name="t18"></a><a name="t18"></a><span style="color:rgb(171,25,66);margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">10、迁移学习</span></span></span></h2>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">让我们想一下如何在CNN中处理一张图片。假设有一张图片，你对它进行卷积处理，然后你得到的输出是像素的组合，我们姑且称之为“边”吧。我们再次使用卷积，这时候你得到的输出将是边的组合，我们称之为“线”。如果再次使用卷积，那么你将得到线的组合，等等。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">每一层都是在寻找相应的特定模式。你的神经网络最后一层一般会给出非常特定的模式。也许你在处理ImageNet，你的网络最后一层可能是在找孩子、狗或飞机或别的任何东西。如果你向前两层看，网络可能是在找眼睛、耳朵、嘴巴或者轮子。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><img src="https://img-blog.csdn.net/20180404152956256?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM0NDcwMjEz/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt=""></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">深度卷积神经网络中的每一层的深入都是在构建越来越高层次的特征表示。最后两层会产生你输入模型的数据中的特定模式。换句话说，早期的层提取的特征则广泛得多，在提取的大量的类中有很多简单的模式。</span></p>
+<p style="background-color:transparent;clear:both;color:rgb(62,62,62);font-size:16px;font-style:normal;font-variant:normal;font-weight:400;letter-spacing:normal;line-height:28px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:670px;min-height:16px;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;text-align:left;text-decoration:none;text-indent:0px;text-transform:none;white-space:normal;word-spacing:0px;"><span style="font-size:14px;margin-bottom:0px;margin-left:0px;margin-right:0px;margin-top:0px;max-width:100%;padding-bottom:0px;padding-left:0px;padding-right:0px;padding-top:0px;">迁移学习就是当你用一个数据集训练CNN时，砍掉最后的一（些）层，再用另一个不同的数据集重新训练最后一（些）层的模型。直观地说，你在重新训练模型来识别不同的高级层次特征。作为结果，训练时间大幅减少。所以当你没有足够的数据或者训练的资源时，迁移学习是非常有用的一个工具。</span></p>
+                </div><div data-report-view="{&quot;mod&quot;:&quot;1585297308_001&quot;,&quot;dest&quot;:&quot;https://blog.csdn.net/qq_34470213/article/details/79592484&quot;,&quot;extend1&quot;:&quot;pc&quot;,&quot;ab&quot;:&quot;new&quot;}"><div></div></div>
         </div>
-      </a>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+    </article>
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      MingKing
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://dm24530.GitHub.io/post/ai-bi-zhi-de-shi-da-shen-du-xue-xi-suan-fa/" title="AI必知的十大深度学习算法">https://dm24530.GitHub.io/post/ai-bi-zhi-de-shi-da-shen-du-xue-xi-suan-fa/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="技术流｜主流深度学习框架比较" href="https://dm24530.GitHub.io/post/ji-zhu-liu-orzhu-liu-shen-du-xue-xi-kuang-jia-bi-jiao/">技术流｜主流深度学习框架比较</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="技术流｜主流深度学习框架比较" href="https://dm24530.GitHub.io/post/ji-zhu-liu-orzhu-liu-shen-du-xue-xi-kuang-jia-bi-jiao/">上一篇</a>
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="深度学习之四大经典CNN技术浅析" href="https://dm24530.GitHub.io/post/shen-du-xue-xi-zhi-si-da-jing-dian-cnn-ji-zhu-qian-xi/">深度学习之四大经典CNN技术浅析</a>
+        <a class="nav-mobile-next" title="深度学习之四大经典CNN技术浅析" href="https://dm24530.GitHub.io/post/shen-du-xue-xi-zhi-si-da-jing-dian-cnn-ji-zhu-qian-xi/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
 </div>
-          </section>
+            
+            
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<div id="vcomments" style="padding: 10px 0px 0px 0px"></div>
+
+<style>
+  .v .veditor {
+    min-height: 10rem;
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: rgba(255, 255, 255, 0);
+    resize: none;
+  }
+
+  .v .vwrap {
+    border: 1px solid #000 !important;
+  }
+
+  .v .vbtn {
+    padding: .4rem 1.2rem !important;
+    border-color: #fff !important;
+    background-color: #49b1f5 !important;
+    color: #fff !important;
+    font-size: .7rem !important;
+  }
+
+  .v .vcards .vcard .vh .vmeta .vat {
+    padding: 0 .8rem !important;
+    border: 1px solid #00c4b6 !important;
+    border-radius: 5px !important;
+    color: #00c4b6 !important;
+  }
+</style>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'pYiTEowj74Ga2vWPuxVIhQrB-gzGzoHsz',
+    appKey: 'C9e2QOCeWfOamvFEJnJ6tGwJ',
+    avatar: '',
+    placeholder: '',
+    pageSize: '',
+    lang: 'zh-cn',
+    enableQQ: 'true' === 'false',
+    visitor: 'true' === 'false',
+    highlight: 'true' === 'true',
+    avatarForce: 'true' === 'false',
+  });
+</script>
+
+          </div>
         </div>
       </div>
     </div>
@@ -700,6 +788,223 @@
     parent.insertBefore(aelem, next);
   })
 </script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        window.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        window.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        window.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        window.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      window.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
   </div>
 </body>
 
@@ -8586,7 +8891,6 @@ a&lt;/p&gt;
 
 
 <script src="https://cdn.jsdelivr.net/gh/dm24530/dm24530.github.io@master/media/js/cool.js"></script>
-
 
 
 
